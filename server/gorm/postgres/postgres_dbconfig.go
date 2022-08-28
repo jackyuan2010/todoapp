@@ -3,11 +3,11 @@ package gorm
 import (
 	"strings"
 
-	gpaasgorm "github.com/jackyuan2010/todoapp/server/src/gorm"
+	todogorm "github.com/jackyuan2010/todoapp/server/gorm"
 )
 
 type PostgresDbConfig struct {
-	gpaasgorm.DbConfig `mapstructure:"dbconfig" json:"dbconfig" yaml:"dbconfig"`
+	todogorm.DbConfig `mapstructure:"dbconfig" json:"dbconfig" yaml:"dbconfig"`
 }
 
 func (dc PostgresDbConfig) Dsn() string {
@@ -46,7 +46,7 @@ func NewPostgresDbConfig(
 	return &pgdbconfig
 }
 
-func Converte2PostgresDbConfig(dbconfig *gpaasgorm.DbConfig) *PostgresDbConfig {
+func Converte2PostgresDbConfig(dbconfig *todogorm.DbConfig) *PostgresDbConfig {
 	pgdbconfig := PostgresDbConfig{}
 	pgdbconfig.DbConfig = *dbconfig
 	return &pgdbconfig

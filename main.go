@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/contrib/cors"
-	todogorm "github.com/jackyuan2010/todoapp/server/src/gorm"
-	todogormpg "github.com/jackyuan2010/todoapp/server/src/gorm/postgres"
-	model "github.com/jackyuan2010/todoapp/server/src/model"
+	todogorm "github.com/jackyuan2010/todoapp/server/gorm"
+	todogormpg "github.com/jackyuan2010/todoapp/server/gorm/postgres"
+	model "github.com/jackyuan2010/todoapp/server/model"
 )
 
 func index(c *gin.Context) {
@@ -42,14 +42,14 @@ func main() {
 }
 
 func initDB() {
-	dbconfig := gpaasgorm.DbConfig{
+	dbconfig := todogorm.DbConfig{
 		Host:     "172.17.0.2",
 		Username: "gormuser", Password: "gormuser",
 		DbName: "todo_db", Port: "5432",
 		Config: "sslmode=disable TimeZone=Asia/Shanghai",
 	}
 
-	pgdbconfig := gtodogormpg.Converte2PostgresDbConfig(&dbconfig)
+	pgdbconfig := todogormpg.Converte2PostgresDbConfig(&dbconfig)
 
 	var dbdsn todogorm.DbDsn = *pgdbconfig
 
@@ -75,7 +75,12 @@ func initDB() {
 
 	db.AutoMigrate(&model.ToDoTask{})
 
-	object := model.ToDoTask{id: "1", task_description: "to do task 1", is_finished: false, is_delay: false}
+	object := model.ToDoTask{Task_Description: "to do task 1", Is_Finished: false, Is_Delay: false}
+	object.Id = "1"
 
 	db.Create(&object)
+
+	dbObj := repository.QueryById("1")
+
+	fmt.Println(dbObj)
 }
