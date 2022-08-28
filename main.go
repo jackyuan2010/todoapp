@@ -36,7 +36,7 @@ func SetupRoutes() *gin.Engine {
 
 func main() {
 	fmt.Println("to do app starting....")
-	initDB()
+	// initDB()
 	router := SetupRoutes()
 	router.Run(":8081")
 }
@@ -53,16 +53,9 @@ func initDB() {
 
 	var dbdsn todogorm.DbDsn = *pgdbconfig
 
-	println("database source name:", dbdsn.Dsn())
-
 	var dbcontext todogorm.DbContext = todogormpg.PostgresDbContext{}
 
 	var repository todogorm.Repository = todogormpg.NewPostgresRepository(&dbdsn)
-
-	fmt.Println("Repository method start......")
-
-
-	fmt.Println("Repository method end......")
 
 	db := dbcontext.GetDb(&dbdsn)
 
@@ -70,17 +63,22 @@ func initDB() {
 
 	defer sqlDB.Close()
 
-	sqlDB.SetMaxIdleConns(5)
-	sqlDB.SetMaxOpenConns(100)
+	// sqlDB.SetMaxIdleConns(5)
+	// sqlDB.SetMaxOpenConns(100)
 
-	db.AutoMigrate(&model.ToDoTask{})
+	// db.AutoMigrate(&model.ToDoTask{})
 
-	object := model.ToDoTask{Task_Description: "to do task 1", Is_Finished: false, Is_Delay: false}
-	object.Id = "1"
+	// object := model.ToDoTask{Task_Description: "to do task 1", Is_Finished: false, Is_Delay: false}
+	// object.Id = "1"
 
-	db.Create(&object)
+	// db.Create(&object)
 
-	dbObj := repository.QueryById("1")
+	// object := model.ToDoTask{BaseModel: model.BaseModel{ Id: "2" }, Task_Description: "to do task 2", Is_Finished: false, Is_Delay: false}
+
+	// db.Create(&object)
+
+
+	dbObj := repository.QueryById("2")
 
 	fmt.Println(dbObj)
 }
